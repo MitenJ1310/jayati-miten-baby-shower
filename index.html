@@ -480,7 +480,7 @@ footer .small{text-transform:none;letter-spacing:0;font-size:.82rem;max-width:52
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         _subject: `RSVP: ${name} – ${yes ? 'Attending (' + d.guests + ')' : 'Not attending'}`,
-        _template: 'table', _captcha: 'false',
+        _template: 'table', _captcha: 'false', _cc: 'jayatipatel818@gmail.com',
         Name: d.name, Attending: d.attending, Guests: d.guests, Blessing: d.blessing || '-'
       })
     }).then(r => r.json()).then(j => {
