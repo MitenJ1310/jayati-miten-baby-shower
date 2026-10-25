@@ -39,8 +39,10 @@
 <script>
 const bgMusic=document.getElementById('bgMusic');
 const musicBtn=document.getElementById('musicBtn');
-musicBtn.addEventListener('click',async()=>{try{if(bgMusic.paused){await bgMusic.play();musicBtn.textContent='♫ Pause Music'}else{bgMusic.pause();musicBtn.textContent='♫ Play Music'}}catch(error){musicBtn.textContent='♫ Tap to Play Music';console.error('Music playback could not start:',error)}});
+async function startBackgroundMusic(){try{await bgMusic.play();musicBtn.textContent='♫ Pause Music';musicBtn.setAttribute('aria-label','Pause background music');return true}catch(error){musicBtn.textContent='♫ Tap to Play Music';musicBtn.setAttribute('aria-label','Tap to play background music');return false}}
+musicBtn.addEventListener('click',async()=>{if(bgMusic.paused){await startBackgroundMusic()}else{bgMusic.pause();musicBtn.textContent='♫ Play Music';musicBtn.setAttribute('aria-label','Play background music')}});
 bgMusic.addEventListener('ended',()=>{musicBtn.textContent='♫ Play Music'});
+window.addEventListener('load',()=>{startBackgroundMusic()});
 let message='';document.getElementById('rsvpForm').addEventListener('submit',e=>{e.preventDefault();const name=document.getElementById('guest').value.trim(),att=document.getElementById('attendance').value,count=document.getElementById('count').value;message='Godh Bharai RSVP — Jayati & Miten\nName: '+name+'\nResponse: '+att+'\nGuests: '+count+'\nEvent: Sunday, January 31, 2027, 8 AM–1 PM';document.getElementById('rsvpResult').textContent='Your RSVP message is ready. Copy it and send it directly to the hosts.';document.getElementById('copyBtn').hidden=false});
 document.getElementById('copyBtn').addEventListener('click',async()=>{const b=document.getElementById('copyBtn');try{await navigator.clipboard.writeText(message);b.textContent='Copied!'}catch(e){const area=document.createElement('textarea');area.value=message;document.body.appendChild(area);area.select();document.execCommand('copy');area.remove();b.textContent='Copied!'}});
 </script></body></html>
